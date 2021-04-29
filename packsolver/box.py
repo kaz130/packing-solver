@@ -6,5 +6,6 @@ class Box:
         self.width = width
         self.height = height
 
-    def get_all_placements(self) -> Set[Tuple[int, int]]:
+    @property
+    def all_placements(self) -> Set[Tuple[int, int]]:
         return set([(self.width, self.height), (self.height, self.width)])

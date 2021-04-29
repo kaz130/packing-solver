@@ -10,13 +10,19 @@ def solver():
 
 
 def test_入力ファイルを読み込む(solver):
-    assert [(b.width, b.height) for b in solver.boxes] == [(1, 3), (6, 2)]
+    assert [(b.width, b.height) for b in solver.boxes] == [(1, 3), (2, 2)]
     assert (solver.container.width, solver.container.height) == (4, 5)
+
+
+def test_重複する置き方を除外する(solver):
+    q = solver.prepare_symbols()
+    assert not q[1][2][1][0].is_number()
+    assert q[1][2][1][1] == 0
 
 
 def test_containerの中に入らない置き方を除外する(solver):
     q = solver.prepare_symbols()
-    assert not q[1][3][0][0].is_number()
-    assert not q[1][3][0][0].is_number()
-    assert q[1][4][0][0] == 0
-    assert q[2][3][0][1] == 0
+    assert not q[1][2][0][0].is_number()
+    assert not q[1][2][0][1].is_number()
+    assert (q[1][3][0][0] == 0) ^ (q[1][3][0][1] == 0)
+    assert (q[2][2][0][0] == 0) ^ (q[2][2][0][1] == 0)

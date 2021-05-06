@@ -26,3 +26,17 @@ def test_containerの中に入らない置き方を除外する(solver):
     assert not q[1][2][0][1].is_number()
     assert (q[1][3][0][0] == 0) ^ (q[1][3][0][1] == 0)
     assert (q[2][2][0][0] == 0) ^ (q[2][2][0][1] == 0)
+
+
+def test_box同士は重ならないよう制約条件を設定する(solver):
+    q = solver.prepare_symbols()
+    c = solver.make_board_constraints(q)
+    test_case = [[[[0, 0] for k in range(2)] for j in range(5)] for i in range(4)]
+    test_case[0][1][0][0] = 1
+    test_case[2][3][0][0] = 1
+    assert c.is_satisfied(test_case) is True
+
+    test_case = [[[[0, 0] for k in range(2)] for j in range(5)] for i in range(4)]
+    test_case[2][2][0][0] = 1
+    test_case[2][2][0][0] = 1
+    assert c.is_satisfied(test_case) is False

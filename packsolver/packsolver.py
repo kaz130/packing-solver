@@ -1,6 +1,6 @@
 import os
 from itertools import product
-from typing import List, Tuple
+from typing import List
 from dotenv import load_dotenv
 import toml
 from amplify import (
@@ -9,7 +9,7 @@ from amplify import (
     gen_symbols,
 )
 from amplify.client import FixstarsClient
-from amplify.constraint import less_equal
+from amplify.constraint import less_equal, equal_to
 
 from packsolver.box import Box
 from packsolver.container import Container
@@ -58,3 +58,22 @@ class PackSolver:
                         s[(cx + bx, cy + by)] += q[cx][cy][i][j]
         board_constraints = [less_equal(q, 1) for q in s.values()]
         return board_constraints
+
+    def make_once_constraints(self, q: List) -> List[BinaryConstraint]:
+        s = dict()
+        for p in product(range(self.container.width), range(self.container.height)):
+            s[p] = BinaryPoly()
+
+        once_constraints = [
+            equal_to(
+                sum(
+                    q[x][y][i][j]
+                    for x in range(self.container.width)
+                    for y in range(self.container.height)
+                    for j, _ in enumerate(b.all_placements)
+                ),
+                1,
+            )
+            for i, b in enumerate(self.boxes)
+        ]
+        return once_constraints

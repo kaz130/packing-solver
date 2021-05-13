@@ -1,6 +1,7 @@
 import os
 from itertools import product
 from typing import List
+from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 import toml
 from amplify import (
@@ -18,7 +19,7 @@ from packsolver.box import Box
 from packsolver.container import Container
 
 
-class PackSolver:
+class PackSolver(ABC):
     def __init__(self) -> None:
         load_dotenv()
         self.client = FixstarsClient()
@@ -53,6 +54,20 @@ class PackSolver:
                         ret.append((x, y, p[0], p[1]))
         return ret
 
+    @abstractmethod
+    def prepare_symbols(self) -> List:
+        pass
+
+    @abstractmethod
+    def make_board_constraints(self, q: List) -> List[BinaryConstraint]:
+        pass
+
+    @abstractmethod
+    def make_once_constraints(self, q: List) -> List[BinaryConstraint]:
+        pass
+
+
+class PackSolver2d(PackSolver):
     def prepare_symbols(self) -> List[List[List[List[BinaryPoly]]]]:
         q = gen_symbols(BinaryPoly, self.container.width, self.container.height, len(self.boxes), 2)
         for x, y in product(range(self.container.width), range(self.container.height)):

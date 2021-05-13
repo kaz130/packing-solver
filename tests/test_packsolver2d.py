@@ -1,11 +1,11 @@
 from itertools import chain
 import pytest
-from packsolver.packsolver import PackSolver
+from packsolver.packsolver import PackSolver2d
 
 
 @pytest.fixture
 def solver():
-    solver = PackSolver()
+    solver = PackSolver2d()
     solver.load("tests/sample1.toml")
     return solver
 

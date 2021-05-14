@@ -1,18 +1,18 @@
 from itertools import chain
 import pytest
-from packsolver.packsolver import PackSolver3d
+from packsolver.packsolver3d import PackSolver3d
 
 
 @pytest.fixture
 def solver():
-    solver = PackSolver2d()
+    solver = PackSolver3d()
     solver.load("tests/sample2.toml")
     return solver
 
 
 @pytest.mark.skip(reason="APIの呼び出しを含むテスト")
 def test_boxの配置を最適化する(solver):
-    p = [[False] * 5 for _ in range(4)] for _ in range(3)]
+    p = [[[False] * 5 for _ in range(4)] for _ in range(3)]
     for x, y, w, h in solver.solve():
         for bx in range(x, x + w):
             for by in range(y, y + h):

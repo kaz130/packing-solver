@@ -1,6 +1,6 @@
 from itertools import chain
 import pytest
-from packsolver.packsolver import PackSolver2d
+from packsolver.packsolver2d import PackSolver2d
 
 
 @pytest.fixture

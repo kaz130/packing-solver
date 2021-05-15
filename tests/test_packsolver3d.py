@@ -1,4 +1,3 @@
-from itertools import chain
 import pytest
 from packsolver.packsolver3d import PackSolver3d
 
@@ -22,4 +21,4 @@ def test_boxの配置を最適化する(solver):
 
 def test_入力ファイルを読み込む(solver):
     assert [(b.width, b.height, b.depth) for b in solver.boxes] == [(1, 3, 2), (2, 2, 2), (1, 1, 5)]
-    assert (solver.container.width, solver.container.height) == (3, 4, 5)
+    assert (solver.container.width, solver.container.height, solver.container.depth) == (3, 4, 5)

@@ -1,23 +1,14 @@
-import os
 from itertools import product
 from typing import List
-from abc import ABC, abstractmethod
-from dotenv import load_dotenv
-import toml
 from amplify import (
     BinaryPoly,
-    BinaryQuadraticModel,
     BinaryConstraint,
     gen_symbols,
-    Solver,
-    decode_solution,
 )
-from amplify.client import FixstarsClient
 from amplify.constraint import less_equal, equal_to
 
 from packsolver.packsolver import PackSolver
-from packsolver.box import Box
-from packsolver.container import Container
+
 
 class PackSolver2d(PackSolver):
     def prepare_symbols(self) -> List[List[List[List[BinaryPoly]]]]:

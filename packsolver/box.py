@@ -13,5 +13,5 @@ class Box:
         return set([(self.width, self.height), (self.height, self.width)])
 
     @property
-    def all_placements3d(self) -> Set[Tuple[Optional[int], ...]]:
+    def all_placements3d(self):
         return set(permutations([self.width, self.height, self.depth], 3))

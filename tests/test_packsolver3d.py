@@ -22,3 +22,16 @@ def test_boxの配置を最適化する(solver):
 def test_入力ファイルを読み込む(solver):
     assert [(b.width, b.height, b.depth) for b in solver.boxes] == [(1, 3, 2), (2, 2, 2), (1, 1, 5)]
     assert (solver.container.width, solver.container.height, solver.container.depth) == (3, 4, 5)
+
+
+def test_重複する置き方を除外する(solver):
+    q = solver.prepare_symbols()
+    assert not q[1][2][3][1][0].is_number()
+    assert q[1][2][3][1][1] == 0
+
+
+def test_containerの中に入らない置き方を除外する(solver):
+    q = solver.prepare_symbols()
+    assert all([not q[0][0][0][0][p].is_number() for p in range(6)])
+    assert any([q[1][2][3][0][p] == 0 for p in range(6)])
+    assert all([q[2][3][4][0][p] == 0 for p in range(6)])

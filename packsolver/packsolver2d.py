@@ -15,10 +15,10 @@ class PackSolver2d(PackSolver):
         q = gen_symbols(BinaryPoly, self.container.width, self.container.height, len(self.boxes), 2)
         for x, y in product(range(self.container.width), range(self.container.height)):
             for i, b in enumerate(self.boxes):
-                for j, p in enumerate(b.all_placements2d):
+                for j, p in enumerate(b.all_placements):
                     if x + p[0] > self.container.width or y + p[1] > self.container.height:
                         q[x][y][i][j] = BinaryPoly(0)
-                for j in range(len(b.all_placements2d), 2):
+                for j in range(len(b.all_placements), 2):
                     q[x][y][i][j] = BinaryPoly(0)
         return q
 
@@ -28,7 +28,7 @@ class PackSolver2d(PackSolver):
             s[p] = BinaryPoly()
 
         for i, box in enumerate(self.boxes):
-            for j, p in enumerate(box.all_placements2d):
+            for j, p in enumerate(list(box.all_placements)):
                 for bx, by in product(range(p[0]), range(p[1])):
                     for cx, cy in product(
                         range(self.container.width - p[0] + 1),
@@ -49,7 +49,7 @@ class PackSolver2d(PackSolver):
                     q[x][y][i][j]
                     for x in range(self.container.width)
                     for y in range(self.container.height)
-                    for j, _ in enumerate(b.all_placements2d)
+                    for j, _ in enumerate(b.all_placements)
                 ),
                 1,
             )

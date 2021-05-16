@@ -46,7 +46,7 @@ class PackSolver(ABC):
         ret = list()
         for x, y in product(range(self.container.width), range(self.container.height)):
             for i, b in enumerate(self.boxes):
-                for j, p in enumerate(b.all_placements2d):
+                for j, p in enumerate(b.all_placements):
                     if q_values[x][y][i][j] == 1:
                         ret.append((x, y, p[0], p[1]))
         return ret

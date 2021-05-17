@@ -35,3 +35,36 @@ def test_containerの中に入らない置き方を除外する(solver):
     assert all([not q[0][0][0][0][p].is_number() for p in range(6)])
     assert any([q[1][2][3][0][p] == 0 for p in range(6)])
     assert all([q[2][3][4][0][p] == 0 for p in range(6)])
+
+
+def test_box同士は重ならないように制約する(solver):
+    q = solver.prepare_symbols()
+    constaraints = solver.make_board_constraints(q)
+    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case[0][0][0][0][0] = 1
+    test_case[1][1][1][1][0] = 1
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    assert all([c.is_satisfied(test_case) for c in constaraints])
+
+    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case[1][1][1][0][0] = 1
+    test_case[1][1][1][1][0] = 1
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    assert any([c.is_satisfied(test_case) is False for c in constaraints])
+
+
+def test_全てのboxが一度ずつ使われるように制約する(solver):
+    q = solver.prepare_symbols()
+    constaraints = solver.make_once_constraints(q)
+    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case[0][0][0][0][0] = 1
+    test_case[0][0][0][1][0] = 1
+    test_case[0][0][0][2][0] = 1
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    assert all([c.is_satisfied(test_case) for c in constaraints])
+
+    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case[0][0][0][0][0] = 1
+    test_case[0][0][1][0][0] = 1
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    assert any([c.is_satisfied(test_case) is False for c in constaraints])

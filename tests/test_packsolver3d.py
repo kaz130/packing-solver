@@ -13,11 +13,12 @@ def solver():
 @pytest.mark.skip(reason="APIの呼び出しを含むテスト")
 def test_boxの配置を最適化する(solver):
     p = [[[False] * 5 for _ in range(4)] for _ in range(3)]
-    for x, y, w, h in solver.solve():
+    for x, y, z, w, h, d in solver.solve():
         for bx in range(x, x + w):
             for by in range(y, y + h):
-                assert p[bx][by] is False
-                p[bx][by] = True
+                for bz in range(z, z + d):
+                    assert p[bx][by][bz] is False
+                    p[bx][by][bz] = True
 
 
 def test_入力ファイルを読み込む(solver):

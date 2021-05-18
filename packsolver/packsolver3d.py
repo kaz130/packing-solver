@@ -58,3 +58,12 @@ class PackSolver3d(PackSolver):
             for i, b in enumerate(self.boxes)
         ]
         return once_constraints
+
+    def normalize(self, q_values: List) -> List:
+        ret = list()
+        for x, y, z in product(range(self.container.width), range(self.container.height), range(self.container.depth)):
+            for i, b in enumerate(self.boxes):
+                for j, p in enumerate(b.all_placements):
+                    if q_values[x][y][z][i][j] == 1:
+                        ret.append((x, y, z, p[0], p[1], p[2]))
+        return ret

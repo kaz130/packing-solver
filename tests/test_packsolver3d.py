@@ -1,3 +1,4 @@
+from itertools import chain
 import pytest
 from packsolver.packsolver3d import PackSolver3d
 
@@ -20,7 +21,7 @@ def test_boxの配置を最適化する(solver):
 
 
 def test_入力ファイルを読み込む(solver):
-    assert [(b.width, b.height, b.depth) for b in solver.boxes] == [(1, 3, 2), (2, 2, 2), (1, 1, 5)]
+    assert [(b.width, b.height, b.depth) for b in solver.boxes] == [(1, 3, 2), (2, 2, 2), (1, 1, 3)]
     assert (solver.container.width, solver.container.height, solver.container.depth) == (3, 4, 5)
 
 
@@ -40,31 +41,31 @@ def test_containerの中に入らない置き方を除外する(solver):
 def test_box同士は重ならないように制約する(solver):
     q = solver.prepare_symbols()
     constaraints = solver.make_board_constraints(q)
-    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case = [[[[[0] * 6 for _ in range(3)] for _ in range(5)] for _ in range(4)] for _ in range(3)]
     test_case[0][0][0][0][0] = 1
     test_case[1][1][1][1][0] = 1
-    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case)))))
     assert all([c.is_satisfied(test_case) for c in constaraints])
 
-    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case = [[[[[0] * 6 for _ in range(3)] for _ in range(5)] for _ in range(4)] for _ in range(3)]
     test_case[1][1][1][0][0] = 1
     test_case[1][1][1][1][0] = 1
-    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case)))))
     assert any([c.is_satisfied(test_case) is False for c in constaraints])
 
 
 def test_全てのboxが一度ずつ使われるように制約する(solver):
     q = solver.prepare_symbols()
     constaraints = solver.make_once_constraints(q)
-    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case = [[[[[0] * 6 for _ in range(3)] for _ in range(5)] for _ in range(4)] for _ in range(3)]
     test_case[0][0][0][0][0] = 1
     test_case[0][0][0][1][0] = 1
     test_case[0][0][0][2][0] = 1
-    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case)))))
     assert all([c.is_satisfied(test_case) for c in constaraints])
 
-    test_case = [[[[[0] * 6 for l in range(3)] for k in range(5)] for j in range(4)] for i in range(3)]
+    test_case = [[[[[0] * 6 for _ in range(3)] for _ in range(5)] for _ in range(4)] for _ in range(3)]
     test_case[0][0][0][0][0] = 1
     test_case[0][0][1][0][0] = 1
-    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case))))
+    test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case)))))
     assert any([c.is_satisfied(test_case) is False for c in constaraints])

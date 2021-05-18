@@ -5,6 +5,7 @@ from amplify import (
     BinaryConstraint,
     gen_symbols,
 )
+from amplify.constraint import less_equal, equal_to
 
 from packsolver.packsolver import PackSolver
 
@@ -22,7 +23,38 @@ class PackSolver3d(PackSolver):
         return q
 
     def make_board_constraints(self, q: List) -> List[BinaryConstraint]:
-        pass
+        s = dict()
+        for p in product(range(self.container.width), range(self.container.height), range(self.container.depth)):
+            s[p] = BinaryPoly()
+
+        for i, box in enumerate(self.boxes):
+            for j, p in enumerate(list(box.all_placements)):
+                for bx, by, bz in product(range(p[0]), range(p[1]), range(p[2])):
+                    for cx, cy, cz in product(
+                        range(self.container.width - p[0] + 1),
+                        range(self.container.height - p[1] + 1),
+                        range(self.container.depth - p[2] + 1),
+                    ):
+                        s[(cx + bx, cy + by, cz + bz)] += q[cx][cy][cz][i][j]
+        board_constraints = [less_equal(q, 1) for q in s.values()]
+        return board_constraints
 
     def make_once_constraints(self, q: List) -> List[BinaryConstraint]:
-        pass
+        s = dict()
+        for p in product(range(self.container.width), range(self.container.height), range(self.container.depth)):
+            s[p] = BinaryPoly()
+
+        once_constraints = [
+            equal_to(
+                sum(
+                    q[x][y][z][i][j]
+                    for x in range(self.container.width)
+                    for y in range(self.container.height)
+                    for z in range(self.container.depth)
+                    for j, _ in enumerate(b.all_placements)
+                ),
+                1,
+            )
+            for i, b in enumerate(self.boxes)
+        ]
+        return once_constraints

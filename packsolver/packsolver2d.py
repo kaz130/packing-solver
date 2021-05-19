@@ -28,7 +28,7 @@ class PackSolver2d(PackSolver):
             s[p] = BinaryPoly()
 
         for i, box in enumerate(self.boxes):
-            for j, p in enumerate(list(box.all_placements)):
+            for j, p in enumerate(box.all_placements):
                 for bx, by in product(range(p[0]), range(p[1])):
                     for cx, cy in product(
                         range(self.container.width - p[0] + 1),

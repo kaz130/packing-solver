@@ -1,5 +1,5 @@
 from itertools import permutations
-from typing import Set, Optional
+from typing import Iterable, Optional
 
 
 class Box:
@@ -9,8 +9,8 @@ class Box:
         self.depth = depth
 
     @property
-    def all_placements(self) -> Set:
+    def all_placements(self) -> Iterable:
         if self.depth is None:
-            return set(permutations([self.width, self.height], 2))
+            return sorted(set(permutations([self.width, self.height], 2)))
         else:
-            return set(permutations([self.width, self.height, self.depth], 3))
+            return sorted(set(permutations([self.width, self.height, self.depth], 3)))

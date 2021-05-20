@@ -11,11 +11,11 @@ def test_boxは幅と高さと奥行きを持つ():
     assert (box.width, box.height, box.depth) == (3, 4, 5)
 
 
-def test_平面上のboxの全ての置き方を取得する():
+def test_平面上のboxの全ての置き方を昇順に取得する():
     box = Box(3, 4)
     assert list(box.all_placements) == [(3, 4), (4, 3)]
 
 
-def test_boxの全ての置き方を取得する():
+def test_boxの全ての置き方を昇順に取得する():
     box = Box(3, 4, 5)
     assert list(box.all_placements) == [(3, 4, 5), (3, 5, 4), (4, 3, 5), (4, 5, 3), (5, 3, 4), (5, 4, 3)]

@@ -11,7 +11,7 @@ def solver():
     return solver
 
 
-@pytest.mark.skip(reason="APIの呼び出しを含むテスト")
+@pytest.mark.slow
 def test_boxの配置を最適化する(solver):
     solver.load("tests/sample2.toml")
     p = [[[False] * 5 for _ in range(4)] for _ in range(3)]
@@ -75,4 +75,4 @@ def test_全てのboxが一度ずつ使われるように制約する(solver):
     test_case = list(chain.from_iterable(chain.from_iterable(chain.from_iterable(chain.from_iterable(test_case)))))
     assert not constaraints[0].is_satisfied(test_case)  # 二度使われる
     assert not constaraints[1].is_satisfied(test_case)  # 使われない
-    assert constaraints[2].is_satisfied(test_case)      # 一度だけ使われる
+    assert constaraints[2].is_satisfied(test_case)  # 一度だけ使われる

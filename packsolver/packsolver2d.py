@@ -18,7 +18,7 @@ class PackSolver2d(PackSolver):
                 for j, p in enumerate(b.all_placements):
                     if x + p[0] > self.container.width or y + p[1] > self.container.height:
                         q[x][y][i][j] = BinaryPoly(0)
-                for j in range(len(b.all_placements), 2):
+                for j in range(len(list(b.all_placements)), 2):
                     q[x][y][i][j] = BinaryPoly(0)
         return q
 

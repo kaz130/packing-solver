@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Dict
 from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 import toml
@@ -27,7 +27,9 @@ class PackSolver(ABC):
     def load(self, problem_file: str) -> None:
         with open(problem_file) as f:
             problem = toml.loads(f.read())
+        self.loadDict(problem)
 
+    def loadDict(self, problem: Dict) -> None:
         self.boxes = [Box(*b) for b in problem["boxes"]]
         self.container = Container(*problem["container"])
 

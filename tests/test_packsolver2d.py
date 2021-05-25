@@ -28,6 +28,12 @@ def test_入力ファイルを読み込む(solver):
     assert (solver.container.width, solver.container.height) == (4, 5)
 
 
+def test_辞書を読み込む(solver):
+    solver.loadDict({"boxes": [[1, 3], [2, 2]], "container": [4, 5]})
+    assert [(b.width, b.height) for b in solver.boxes] == [(1, 3), (2, 2)]
+    assert (solver.container.width, solver.container.height) == (4, 5)
+
+
 def test_重複する置き方を除外する(solver):
     solver.boxes = [Box(2, 2)]
     solver.container = Container(5, 6)

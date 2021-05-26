@@ -1,4 +1,3 @@
-import json
 from fastapi.testclient import TestClient
 import pytest
 
@@ -13,7 +12,8 @@ def test_root():
     assert response.json() == {"message": "Hello World"}
 
 
-def test_solve():
+@pytest.mark.slow
+def test_solve2d():
     response = client.post(
             "/solve2d/",
             headers={"X-Token": "coneofsilence"},
@@ -21,7 +21,7 @@ def test_solve():
             )
     assert response.status_code == 200
     p = [[False] * 5 for _ in range(4)]
-    for x, y, w, h in response.json()["result"]:
+    for x, y, w, h in response.json():
         for bx in range(x, x + w):
             for by in range(y, y + h):
                 assert p[bx][by] is False

@@ -1,13 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from packsolver.packsolver2d import PackSolver2d
 
 
 app = FastAPI()
 
 
 class Problem2d(BaseModel):
-    boxes: list[list[int, int], ...]
-    container: list[int, int]
+    boxes: list[tuple[int, int]]
+    container: tuple[int, int]
 
 
 @app.get("/")
@@ -17,4 +18,6 @@ async def root():
 
 @app.post("/solve2d/")
 async def solve2d(problem: Problem2d):
-    return {"result": [[0, 0, 1, 3], [1, 0, 2, 2]]}
+    solver = PackSolver2d()
+    solver.loadDict(problem.dict())
+    return solver.solve()

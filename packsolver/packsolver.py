@@ -1,5 +1,5 @@
 import os
-from typing import List, Dict
+from typing import Any, List, MutableMapping
 from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 import toml
@@ -29,7 +29,7 @@ class PackSolver(ABC):
             problem = toml.loads(f.read())
         self.loadDict(problem)
 
-    def loadDict(self, problem: Dict) -> None:
+    def loadDict(self, problem: MutableMapping[str, Any]) -> None:
         self.boxes = [Box(*b) for b in problem["boxes"]]
         self.container = Container(*problem["container"])
 

@@ -13,7 +13,7 @@ def solver():
 
 @pytest.mark.slow
 def test_boxの配置を最適化する(solver):
-    solver.load("tests/sample1.toml")
+    solver.loadDict({"boxes": [[1, 3], [2, 2]], "container": [4, 5]})
     p = [[False] * 5 for _ in range(4)]
     for x, y, w, h in solver.solve():
         for bx in range(x, x + w):

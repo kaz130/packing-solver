@@ -15,10 +15,10 @@ def test_root():
 @pytest.mark.slow
 def test_solve2d():
     response = client.post(
-            "/solve2d/",
-            headers={"X-Token": "coneofsilence"},
-            json={"boxes": [[1, 3], [2, 2]], "container": [4, 5]},
-            )
+        "/solve2d/",
+        headers={"X-Token": "coneofsilence"},
+        json={"boxes": [[1, 3], [2, 2]], "container": [4, 5]},
+    )
     assert response.status_code == 200
     p = [[False] * 5 for _ in range(4)]
     for x, y, w, h in response.json():
@@ -26,3 +26,20 @@ def test_solve2d():
             for by in range(y, y + h):
                 assert p[bx][by] is False
                 p[bx][by] = True
+
+
+@pytest.mark.slow
+def test_solve3d():
+    response = client.post(
+        "/solve3d/",
+        headers={"X-Token": "coneofsilence"},
+        json={"boxes": [[1, 3, 2], [2, 2, 2], [1, 1, 3]], "container": [3, 4, 5]},
+    )
+    assert response.status_code == 200
+    p = [[[False] * 5 for _ in range(4)] for _ in range(3)]
+    for x, y, z, w, h, d in response.json():
+        for bx in range(x, x + w):
+            for by in range(y, y + h):
+                for bz in range(z, z + d):
+                    assert p[bx][by][bz] is False
+                    p[bx][by][bz] = True

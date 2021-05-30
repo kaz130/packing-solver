@@ -23,6 +23,13 @@ def test_boxの配置を最適化する(solver):
                     p[bx][by][bz] = True
 
 
+@pytest.mark.slow
+def test_最適化できない場合にraiseする(solver):
+    with pytest.raises(RuntimeError):
+        solver.loadDict({"boxes": [[1, 3, 5], [2, 2, 5], [3, 4, 2]], "container": [3, 4, 5]})
+        solver.solve()
+
+
 def test_入力ファイルを読み込む(solver):
     solver.load("tests/sample2.toml")
     assert [(b.width, b.height, b.depth) for b in solver.boxes] == [(1, 3, 2), (2, 2, 2), (1, 1, 3)]

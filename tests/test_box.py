@@ -19,3 +19,13 @@ def test_平面上のboxの全ての置き方を昇順に取得する():
 def test_boxの全ての置き方を昇順に取得する():
     box = Box(3, 4, 5)
     assert list(box.all_placements) == [(3, 4, 5), (3, 5, 4), (4, 3, 5), (4, 5, 3), (5, 3, 4), (5, 4, 3)]
+
+
+def test_平面上のboxの全ての置き方を昇順に回転を禁止して取得する():
+    box = Box(3, 4, can_rotate=False)
+    assert list(box.all_placements) == [(3, 4)]
+
+
+def test_boxの全ての置き方を昇順に回転を禁止して取得する():
+    box = Box(3, 4, 5, can_rotate=False)
+    assert list(box.all_placements) == [(3, 4, 5)]

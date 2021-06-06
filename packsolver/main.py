@@ -10,11 +10,13 @@ app = FastAPI()
 class Problem2d(BaseModel):
     boxes: list[tuple[int, int]]
     container: tuple[int, int]
+    can_rotate: bool
 
 
 class Problem3d(BaseModel):
     boxes: list[tuple[int, int, int]]
     container: tuple[int, int, int]
+    can_rotate: bool
 
 
 @app.get("/")

@@ -30,7 +30,7 @@ class PackSolver(ABC):
         self.loadDict(problem)
 
     def loadDict(self, problem: MutableMapping[str, Any]) -> None:
-        self.boxes = [Box(*b, can_rotate = problem.get("can_rotate", True)) for b in problem["boxes"]]
+        self.boxes = [Box(*b, can_rotate=problem.get("can_rotate", True)) for b in problem["boxes"]]
         self.container = Container(*problem["container"])
 
     def solve(self) -> List:

@@ -31,7 +31,7 @@ def test_solve2d():
 @pytest.mark.slow
 def test_notRotatingSolve2d():
     with pytest.raises(RuntimeError):
-        response = client.post(
+        client.post(
             "/solve2d/",
             headers={"X-Token": "coneofsilence"},
             json={"boxes": [[3, 4], [2, 2]], "container": [4, 5], "can_rotate": False},
